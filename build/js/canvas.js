@@ -47,21 +47,25 @@ var AddText = function () {
       var realImgHeight = img.height;
       var strokeError = fontProperties.stroke.size / RETREAT_DEVIDER;
       var canvas = document.createElement("CANVAS");
+      canvas.setAttribute('width', options.width + 'px');
+      canvas.setAttribute('height', options.height + 'px');
       canvas.setAttribute('id', 'canvas');
       if (realImgWidth > realImgHeight) {
         var imgHeight = (options.width / realImgWidth) * realImgHeight;
-        canvas.setAttribute('width', options.width + 'px');
-        canvas.setAttribute('height', imgHeight + 'px');
+        img.height = imgHeight;
+        //canvas.setAttribute('width', options.width + 'px');
+        //canvas.setAttribute('height', imgHeight + 'px');
         options.container.appendChild(canvas);
         var ctx = canvas.getContext('2d');
-        ctx.drawImage(img, 0, 0, options.width, imgHeight);
+        ctx.drawImage(img, 0, options.height / 2 - imgHeight / 2, options.width, imgHeight); //options.height / 2 + imgHeight / 2
       } else {
         var imgWidth = (options.height / realImgHeight) * realImgWidth;
-        canvas.setAttribute('width', imgWidth + 'px');
-        canvas.setAttribute('height', options.height + 'px');
+        img.width = imgWidth;
+        //canvas.setAttribute('width', imgWidth + 'px');
+        //canvas.setAttribute('height', options.height + 'px');
         options.container.appendChild(canvas);
         var ctx = canvas.getContext('2d');
-        ctx.drawImage(img, 0, 0, imgWidth, options.height);
+        ctx.drawImage(img, options.width / 2 - imgWidth / 2, 0, imgWidth, options.height);
       }
       setFontProperties(ctx, options.fontProperties);
       //separete by \n
@@ -77,7 +81,7 @@ var AddText = function () {
         ctx.fillText(lines[i], options.textPosition.left, options.textPosition.top + (i * lineheight));
       }
     };
-    img.src = options.imgUrl;
+    img.src = options.imgUrl + '?' + Date.now();
   }
 
   function setFontProperties(ctx, fontProperties) {
