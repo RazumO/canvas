@@ -10,16 +10,16 @@ var fontProperties = {
   fontName: 'Tahoma',
   stroke: {
     size: 7,
-    color: 'black'
+    color: 'blue'
   }
 };
 
 var textPosition = {
-  left: 20,
-  top: 30
+  left: 30,
+  top: 20
 }
 
-var text = 'ababagallamaga afsdf asfasd fasd dsfasd fasfasd adfs as';
+var text = 'ababagallamaga \nafsdf asfasd \nfasd dsfasd fasfa\nsd adfs as';
 
 var options = {
   container: container,
