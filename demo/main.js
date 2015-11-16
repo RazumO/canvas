@@ -5,9 +5,9 @@ var addText = new window.AddText();
 var container = document.getElementById('container');
 
 var fontProperties = {
-  fontSize: 50,
-  fillStyle: 'red',
-  fontName: 'Arial',
+  fontSize: 40,
+  fillStyle: 'white',
+  fontName: 'Tahoma',
   stroke: {
     size: 7,
     color: 'black'
@@ -19,7 +19,7 @@ var textPosition = {
   top: 30
 }
 
-var text = 'ababagallamaga';
+var text = 'ababagallamaga afsdf asfasd fasd dsfasd fasfasd adfs as';
 
 var options = {
   container: container,

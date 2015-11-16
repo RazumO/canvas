@@ -21,6 +21,7 @@
 * */
 
 var AddText = function () {
+
   this.add = function (options) {
     options.fontProperties.font = function () {
       return this.fontSize + "px " + this.fontName;
@@ -47,6 +48,16 @@ var AddText = function () {
     ctx.textBaseline = "hanging";
     ctx.lineWidth = fontProperties.stroke.size;
     ctx.strokeStyle = fontProperties.stroke.color;
+  }
+
+  function getWidthLines(ctx, strokeError, text) {
+    var out = {lines: text.split('\n')};
+    var widthArr = [];
+    out.lines.forEach(function (elem) {
+      widthArr.push(ctx.measureText(elem).width + strokeError * 2);
+    });
+    out.width = Math.max.apply(Math, widthArr);
+    return out;
   }
 
 }
