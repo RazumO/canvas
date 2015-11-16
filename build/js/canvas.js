@@ -33,35 +33,49 @@ var AddText = function () {
     options.fontProperties.font = function () {
       return this.fontSize + "px " + this.fontName;
     };
-    var canvas = document.createElement("CANVAS");
-    canvas.setAttribute('width', options.width + 'px');
-    canvas.setAttribute('height', options.height + 'px');
-    options.container.appendChild(canvas);
-    var ctx = canvas.getContext('2d');
+
+    var oldCanvas = document.getElementById('canvas');
+    if (oldCanvas) {
+      oldCanvas.parentElement.removeChild(oldCanvas);
+    }
+
     var img = new Image();
     //img.setAttribute('width', options.width);
     img.onload = function(){
+      //Get img parametres
+      var realImgWidth = img.width;
+      var realImgHeight = img.height;
       var strokeError = fontProperties.stroke.size / RETREAT_DEVIDER;
-      ctx.drawImage(img, 0, 0, options.width, options.height);
+      var canvas = document.createElement("CANVAS");
+      canvas.setAttribute('id', 'canvas');
+      if (realImgWidth > realImgHeight) {
+        var imgHeight = (options.width / realImgWidth) * realImgHeight;
+        canvas.setAttribute('width', options.width + 'px');
+        canvas.setAttribute('height', imgHeight + 'px');
+        options.container.appendChild(canvas);
+        var ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, options.width, imgHeight);
+      } else {
+        var imgWidth = (options.height / realImgHeight) * realImgWidth;
+        canvas.setAttribute('width', imgWidth + 'px');
+        canvas.setAttribute('height', options.height + 'px');
+        options.container.appendChild(canvas);
+        var ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, imgWidth, options.height);
+      }
       setFontProperties(ctx, options.fontProperties);
+      //separete by \n
       var strokeErrorHeight = options.fontProperties.stroke.size / RETREAT_DEVIDER_HEIGHT;
       var lineheight = fontProperties.fontSize + strokeErrorHeight * 2;
       var newInput = getWidthLines(ctx, strokeError, options.text);
       var lines = newInput.lines;
-      var x = strokeError;
-      var y = strokeErrorHeight;
       var size = {width: newInput.width + strokeError * 2};
       size.height = lineheight * (lines.length);
-      img.width = size.width;
-      //canvas.width = size.width;
-      img.height = size.height;
-      //canvas.height = size.height;
       oldText = text;
       for (var i = 0; i < lines.length; i++) {
         ctx.strokeText(lines[i], options.textPosition.left, options.textPosition.top + (i * lineheight));
         ctx.fillText(lines[i], options.textPosition.left, options.textPosition.top + (i * lineheight));
       }
-      //ctx.fillText(options.text, options.textPosition.left, options.textPosition.top);
     };
     img.src = options.imgUrl;
   }
