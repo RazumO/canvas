@@ -6,7 +6,7 @@ var container = document.getElementById('container');
 
 var fontProperties = {
   fontSize: 40,
-  fillStyle: 'white',
+  fillStyle: 'red',
   fontName: 'Tahoma',
   stroke: {
     size: 7,
@@ -15,17 +15,17 @@ var fontProperties = {
 };
 
 var textPosition = {
-  left: 30,
+  left: 50,
   top: 20
 }
 
-var text = 'ababagallamaga \nafsdf asfasd \nfasd dsfasd fasfa\nsd adfs as ababagallamaga \nafsdf asfasd \nfasd dsfasd fasfa\nsd adfs as';
+var text = 'ababagallamaga \nafsdf asfasd \nfasd dsfasd fasfa\nsd adfs as ababaga \nafsdf asfasd \nfasd dsfasd fasfa\nsd adfs as';
 
 var options = {
   container: container,
-  width: '500',
+  width: '400',
   height: '500',
-  imgUrl: 'http://www.designchen.de/wp-content/uploads/2012/12/M1.gif',
+  imgUrl: 'http://www.gettyimages.co.uk/gi-resources/images/Homepage/Hero/UK/CMS_Creative_164657191_Kingfisher.jpg',
   text: text,
   fontProperties: fontProperties,
   textPosition: textPosition
