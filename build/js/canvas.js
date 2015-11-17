@@ -1,7 +1,7 @@
 
 
 /*
-* var fontProperties = {
+* var options = {
 * "container": document.getElementById('container'),
 * "width": "400",
 * "height": "500",
