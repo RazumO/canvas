@@ -36,25 +36,21 @@ var AddText = function () {
     options.fontProperties.font = function () {
       return this.fontSize + "px " + this.fontName;
     };
-
+    options.container.style['background-image'] = 'url(' + options.imgUrl + ')';
     var oldCanvas = document.getElementById('canvas');
     if (oldCanvas) {
       oldCanvas.parentElement.removeChild(oldCanvas);
     }
-
-    var img = new Image();
-    img.onload = function(){
-      //Get img parametres
-      var realImgWidth = img.width;
-      var realImgHeight = img.height;
-      var canvas = document.createElement("CANVAS");
-      canvas.setAttribute('width', options.width + 'px');
-      canvas.setAttribute('height', options.height + 'px');
-      canvas.setAttribute('id', 'canvas');
-      var ctx = drawImage(canvas, realImgWidth, realImgHeight, img);
-      drawText(ctx, options.text, options.fontProperties);
-    };
-    img.src = options.imgUrl + '?' + Date.now();
+    // var realImgWidth = img.width;
+    // var realImgHeight = img.height;
+    var canvas = document.createElement("CANVAS");
+    canvas.setAttribute('width', options.width + 'px');
+    canvas.setAttribute('height', options.height + 'px');
+    canvas.setAttribute('id', 'canvas');
+    var ctx = canvas.getContext('2d');
+    options.container.appendChild(canvas);
+    //drawImage(canvas, ctx, realImgWidth, realImgHeight, img);
+    drawText(ctx, options.text, options.fontProperties);
   }
 
   function drawText(ctx, text, fontProperties)
@@ -70,24 +66,19 @@ var AddText = function () {
     size.height = lineheight * (lines.length);
     oldText = text;
     for (var i = 0; i < lines.length; i++) {
-      ctx.strokeText(lines[i], options.textPosition.left, options.textPosition.top + (i * lineheight));
-      ctx.fillText(lines[i], options.textPosition.left, options.textPosition.top + (i * lineheight));
+      ctx.strokeText(lines[i], 0, 0 + (i * lineheight));
+      ctx.fillText(lines[i], 0, 0 + (i * lineheight));
     }
   }
 
-  function drawImage(canvas, realImgWidth, realImgHeight, img) {
+  function drawImage(canvas, ctx, realImgWidth, realImgHeight, img) {
     if (realImgWidth > realImgHeight) {
       var imgHeight = (options.width / realImgWidth) * realImgHeight;
       img.height = imgHeight;
-      canvas.style.background = 'white';
-      options.container.appendChild(canvas);
-      var ctx = canvas.getContext('2d');
       ctx.drawImage(img, 0, options.height / 2 - imgHeight / 2, options.width, imgHeight);
     } else {
       var imgWidth = (options.height / realImgHeight) * realImgWidth;
       img.width = imgWidth;
-      options.container.appendChild(canvas);
-      var ctx = canvas.getContext('2d');
       ctx.drawImage(img, options.width / 2 - imgWidth / 2, 0, imgWidth, options.height);
     }
     return ctx;
