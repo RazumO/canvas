@@ -25,7 +25,7 @@ var options = {
   container: container,
   width: '400',
   height: '500',
-  imgUrl: 'http://www.gettyimages.co.uk/gi-resources/images/Homepage/Hero/UK/CMS_Creative_164657191_Kingfisher.jpg',
+  imgUrl: 'https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcSOx9QdgIohSdQ5sYj0nUC8imiRFaqdzdklKtq60rhJ9Vrqh5FnkQ',
   text: text,
   fontProperties: fontProperties,
   textPosition: textPosition

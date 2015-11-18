@@ -36,6 +36,9 @@ var AddText = function () {
     options.fontProperties.font = function () {
       return this.fontSize + "px " + this.fontName;
     };
+    options.container.style['background-size'] = 'contain';
+    options.container.style['background-repeat'] = 'no-repeat';
+    options.container.style['background-position'] = 'center center';
     options.container.style['background-image'] = 'url(' + options.imgUrl + ')';
     var oldCanvas = document.getElementById('canvas');
     if (oldCanvas) {
@@ -48,27 +51,31 @@ var AddText = function () {
     canvas.setAttribute('height', options.height + 'px');
     canvas.setAttribute('id', 'canvas');
     var ctx = canvas.getContext('2d');
-    options.container.appendChild(canvas);
     //drawImage(canvas, ctx, realImgWidth, realImgHeight, img);
-    drawText(ctx, options.text, options.fontProperties);
+    var ctx = drawText(canvas, options.text, options.fontProperties);
+    options.container.appendChild(canvas);
   }
 
-  function drawText(ctx, text, fontProperties)
+  function drawText(canvas, text, fontProperties)
   {
+    var ctx = canvas.getContext('2d');
     setFontProperties(ctx, fontProperties);
     //separete by \n
     var strokeError = fontProperties.stroke.size / RETREAT_DEVIDER;
     var strokeErrorHeight = options.fontProperties.stroke.size / RETREAT_DEVIDER_HEIGHT;
     var lineheight = fontProperties.fontSize + strokeErrorHeight * 2;
-    var newInput = getWidthLines(ctx, strokeError, options.text);
+    var newInput = getWidthLines(ctx, strokeError, text);
     var lines = newInput.lines;
     var size = {width: newInput.width + strokeError * 2};
     size.height = lineheight * (lines.length);
+
     oldText = text;
+
     for (var i = 0; i < lines.length; i++) {
-      ctx.strokeText(lines[i], 0, 0 + (i * lineheight));
-      ctx.fillText(lines[i], 0, 0 + (i * lineheight));
+      ctx.strokeText(lines[i], options.textPosition.left, options.textPosition.top + (i * lineheight));
+      ctx.fillText(lines[i], options.textPosition.left, options.textPosition.top + (i * lineheight));
     }
+    return ctx;
   }
 
   function drawImage(canvas, ctx, realImgWidth, realImgHeight, img) {
@@ -86,7 +93,7 @@ var AddText = function () {
 
 
   function setFontProperties(ctx, fontProperties) {
-    console.log(fontProperties);
+    //console.log(fontProperties);
     ctx.font = fontProperties.font();
     ctx.fillStyle = fontProperties.fillStyle;
     ctx.textBaseline = "hanging";
