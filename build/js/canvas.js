@@ -32,6 +32,11 @@ var AddText = function () {
   var RETREAT_DEVIDER = 2;
   var RETREAT_DEVIDER_HEIGHT = 3;
 
+  var canvas = document.createElement("CANVAS");
+  canvas.setAttribute('class', 'canvas');
+  var ctx = canvas.getContext('2d');
+  //ctx.clearRect(20,20,100,50);
+
   this.add = function (options) {
     options.fontProperties.font = function () {
       return this.fontSize + "px " + this.fontName;
@@ -40,14 +45,8 @@ var AddText = function () {
     options.container.style['background-repeat'] = 'no-repeat';
     options.container.style['background-position'] = 'center center';
     options.container.style['background-image'] = 'url(' + options.imgUrl + ')';
-    var oldCanvas = document.getElementById('canvas');
-    if (oldCanvas) {
-      oldCanvas.parentElement.removeChild(oldCanvas);
-    }
     options.container.style.width = options.width + 'px';
     options.container.style.height = options.height + 'px';
-    var canvas = document.createElement("CANVAS");
-    canvas.setAttribute('id', 'canvas');
     var img = new Image();
     img.onload = function () {
       var imgSize = getImageSize(img, options.width, options.height);
@@ -58,15 +57,15 @@ var AddText = function () {
       } else if (imgSize.left) {
         canvas.style['padding-left'] = imgSize.left;
       }
-      var ctx = drawText(canvas, options.text, options.fontProperties, options.textPosition);
+      ctx.clearRect(0, 0, imgSize.width, img.height);
+      ctx = drawText(options.text, options.fontProperties, options.textPosition, imgSize);
       options.container.appendChild(canvas);
     }
     img.src = options.imgUrl;
   }
 
-  function drawText(canvas, text, fontProperties, textPosition)
+  function drawText (text, fontProperties, textPosition, imgSize)
   {
-    var ctx = canvas.getContext('2d');
     setFontProperties(ctx, fontProperties);
     //separete by \n
     var strokeError = fontProperties.stroke.size / RETREAT_DEVIDER;
@@ -79,9 +78,16 @@ var AddText = function () {
 
     oldText = text;
 
+    var percentsTextPosition = {
+      left: (textPosition.left * imgSize.width) / 100,
+      top: (textPosition.top * imgSize.height) / 100
+    }
+
+    console.log('Text position: ', percentsTextPosition);
+
     for (var i = 0; i < lines.length; i++) {
-      ctx.strokeText(lines[i], textPosition.left, textPosition.top + (i * lineheight));
-      ctx.fillText(lines[i], textPosition.left, textPosition.top + (i * lineheight));
+      ctx.strokeText(lines[i], percentsTextPosition.left, percentsTextPosition.top + (i * lineheight));
+      ctx.fillText(lines[i], percentsTextPosition.left, percentsTextPosition.top + (i * lineheight));
     }
     return ctx;
   }
