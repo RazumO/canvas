@@ -1,6 +1,5 @@
 
 
-var addText = new window.AddText();
 
 var container = document.getElementById('container');
 
@@ -31,6 +30,8 @@ var options = {
   textPosition: textPosition
 };
 
+var cb = new window.CanvasBanner(options);
+
 var textarea = document.getElementById('text')
 var text = document.getElementById('text').value = (JSON.stringify(options, null, 2));
 
@@ -41,7 +42,7 @@ btn.onclick = function () {
   console.log(text);
   var newOptions = JSON.parse(text);
   newOptions.container = container;
-  addText.add(newOptions);
+  cb.reinit(newOptions);
 };
 
 //addText.add(options);
@@ -54,5 +55,6 @@ var textarea2 = document.getElementById('text2');
     var newOptions = JSON.parse(text);
     newOptions.container = container;
     newOptions.text = text2;
-    addText.add(newOptions);
+    cb.drawText(text2);
+    //addText.add(newOptions);
   }

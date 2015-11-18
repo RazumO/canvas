@@ -23,12 +23,7 @@
 * }
 * */
 
-var AddText = function () {
-  var NUMBER_PICKER_ADD_TEXT = 'px';
-  var NUMBER_PICKER_STEP = 10;
-  var NUMBER_OF_ZERO = 10;
-  var NUMBER_MIN = 0;
-  var NUMBER_MAX = 300;
+var CanvasBanner = function (options) {
   var RETREAT_DEVIDER = 2;
   var RETREAT_DEVIDER_HEIGHT = 3;
 
@@ -36,97 +31,106 @@ var AddText = function () {
   canvas.setAttribute('class', 'canvas');
   var ctx = canvas.getContext('2d');
   var imgSize;
-  var startPosition;
+  var mouseDownPosition;
   var percentsTextPosition;
   //ctx.clearRect(20,20,100,50);
   var textPositionCurrent;
+  var img;
+  var globalText;
+  options.container.style['background-size'] = 'contain';
+  options.container.style['background-repeat'] = 'no-repeat';
+  options.container.style['background-position'] = 'center center';
+  options.container.style.position = 'relative';
 
-  this.add = function (options) {
+  var mousemoveListener = function (event) {
+    //console.log('mousemove:', event.clientX, event.clientY);
+    if (imgSize) {
+      ctx.clearRect(0, 0, imgSize.width, imgSize.height);
+
+      var diff = {
+        x: mouseDownPosition.x - event.clientX,
+        y: mouseDownPosition.y - event.clientY
+      };
+      var textPosition = {
+        left: percentsTextPosition.left - diff.x,
+        top: percentsTextPosition.top - diff.y
+      };
+      textPositionCurrent = textPosition;
+      drawText(globalText, textPosition);
+    }
+  }
+
+  canvas.addEventListener('mousedown', function (event) {
+    //console.log('mosuedown:', event.clientX, event.clientY);
+    mouseDownPosition =  {
+      x: event.clientX,
+      y: event.clientY
+    };
+    canvas.addEventListener('mousemove', mousemoveListener);
+  });
+
+  canvas.addEventListener('mouseup', function (event) {
+    //console.log('mosueup', event.clientX, event.clientY);
+    canvas.removeEventListener('mousemove', mousemoveListener);
+    percentsTextPosition = textPositionCurrent;
+  });
+
+
+  this.reinit = function (optionsParam) {
+    options = optionsParam;
     options.fontProperties.font = function () {
       return this.fontSize + "px " + this.fontName;
     };
-    options.container.style['background-size'] = 'contain';
-    options.container.style['background-repeat'] = 'no-repeat';
-    options.container.style['background-position'] = 'center center';
     options.container.style['background-image'] = 'url(' + options.imgUrl + ')';
     options.container.style.width = options.width + 'px';
     options.container.style.height = options.height + 'px';
-    options.container.style.position = 'relative';
 
-    var mousemoveListener = function (event) {
-      console.log('mousemove:', event.clientX, event.clientY);
-      if (imgSize) {
-        ctx.clearRect(0, 0, imgSize.width, imgSize.height);
-
-        var diff = {
-          x: startPosition.x - event.clientX,
-          y: startPosition.y - event.clientY
-        };
-        var textPosition = {
-          left: percentsTextPosition.left - diff.x,
-          top: percentsTextPosition.top - diff.y
-        };
-        textPositionCurrent = textPosition;
-        ctx = drawText(options.text, options.fontProperties, textPosition);
-      }
-    }
-
-    canvas.addEventListener('mousedown', function (event) {
-      console.log('mosuedown:', event.clientX, event.clientY);
-      startPosition =  {
-        x: event.clientX,
-        y: event.clientY
-      };
-      canvas.addEventListener('mousemove', mousemoveListener);
-    });
-
-    canvas.addEventListener('mouseup', function (event) {
-      console.log('mosueup', event.clientX, event.clientY);
-      canvas.removeEventListener('mousemove', mousemoveListener);
-      percentsTextPosition = textPositionCurrent;
-    });
-
-    var img = new Image();
+    img = new Image();
     img.onload = function () {
       imgSize = getImageSize(img, options.width, options.height);
       canvas.setAttribute('width', imgSize.width + 'px');
       canvas.setAttribute('height', imgSize.height + 'px');
-      //if (imgSize.top) {
-      //  canvas.style['padding-top'] = imgSize.top;
-      //} else if (imgSize.left) {
-      //  canvas.style['padding-left'] = imgSize.left;
-      //}
       canvas.style.position = 'absolute';
       canvas.style.top = '0px';
       canvas.style.bottom = '0px';
       canvas.style.left = '0px';
       canvas.style.right = '0px';
       canvas.style.margin = 'auto';
-      ctx.clearRect(0, 0, imgSize.width, img.height);
-      percentsTextPosition = textPositionCurrent ? textPositionCurrent : {
-        left: (textPosition.left * imgSize.width) / 100,
-        top: (textPosition.top * imgSize.height) / 100
-      };
-      ctx = drawText(options.text, options.fontProperties, percentsTextPosition);
+      if (!percentsTextPosition) {
+        percentsTextPosition = {
+          left: (textPosition.left * imgSize.width) / 100,
+          top: (textPosition.top * imgSize.height) / 100
+        };
+      }
       options.container.appendChild(canvas);
+      if(globalText && textPositionCurrent) {
+        drawText(globalText, textPositionCurrent);
+      }
     }
     img.src = options.imgUrl;
   }
 
-  function drawText (text, fontProperties, percentsTextPosition)
+  this.reinit(options);
+
+
+
+  var drawText = function (text, percentsTextPosition)
   {
-    setFontProperties(ctx, fontProperties);
+    globalText = text;
+    //ctx.clearRect(0, 0, imgSize.width, img.height);
+    //var fontProperties = options.fontProperties;
     //separete by \n
-    var strokeError = fontProperties.stroke.size / RETREAT_DEVIDER;
+    setFontProperties(ctx, options.fontProperties);
+    var strokeError = options.fontProperties.stroke.size / RETREAT_DEVIDER;
     var strokeErrorHeight = options.fontProperties.stroke.size / RETREAT_DEVIDER_HEIGHT;
-    var lineheight = fontProperties.fontSize + strokeErrorHeight * 2;
+    var lineheight = options.fontProperties.fontSize + strokeErrorHeight * 2;
     var newInput = getWidthLines(ctx, strokeError, text);
     var lines = newInput.lines;
     var size = {width: newInput.width + strokeError * 2};
     size.height = lineheight * (lines.length);
 
     oldText = text;
-    console.log('Text position: ', percentsTextPosition);
+    //console.log('Text position: ', percentsTextPosition);
 
     for (var i = 0; i < lines.length; i++) {
       ctx.strokeText(lines[i], percentsTextPosition.left, percentsTextPosition.top + (i * lineheight));
@@ -135,11 +139,13 @@ var AddText = function () {
     return ctx;
   }
 
+  this.drawText = function(text) {
+    drawText(text, percentsTextPosition);
+  }
+
   function getImageSize(img, containerWidth, containerHeight) {
-    console.log(containerHeight, containerWidth);
     var realImgWidth = img.width;
     var realImgHeight = img.height;
-    console.log(realImgHeight, realImgWidth);
     var size;
 
     var half = 0.49999999999999999999999999999999999999999999;
@@ -151,7 +157,6 @@ var AddText = function () {
         height: imgHeight,
         top: Math.round(top + half)
       }
-      //ctx.drawImage(img, 0, options.height / 2 - imgHeight / 2, options.width, imgHeight);
     } else {
       var imgWidth = (+containerHeight / realImgHeight) * realImgWidth;
       var left = options.width / 2 - imgWidth / 2;
@@ -160,15 +165,12 @@ var AddText = function () {
         height: +containerHeight,
         left: Math.round(left + half)
       }
-      //ctx.drawImage(img, options.width / 2 - imgWidth / 2, 0, imgWidth, options.height);
     }
-    console.log(size);
     return size;
   }
 
 
   function setFontProperties(ctx, fontProperties) {
-    //console.log(fontProperties);
     ctx.font = fontProperties.font();
     ctx.fillStyle = fontProperties.fillStyle;
     ctx.textBaseline = "hanging";
@@ -179,7 +181,6 @@ var AddText = function () {
 
   function getWidthLines(ctx, strokeError, text) {
     var out = {lines: text.split('\n')};
-    console.log(out);
     var widthArr = [];
     out.lines.forEach(function (elem) {
       widthArr.push(ctx.measureText(elem).width + strokeError * 2);
@@ -191,4 +192,4 @@ var AddText = function () {
 
 
 
-window.AdddText = AddText;
+window.AdddText = CanvasBanner;
