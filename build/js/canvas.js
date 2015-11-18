@@ -44,19 +44,27 @@ var AddText = function () {
     if (oldCanvas) {
       oldCanvas.parentElement.removeChild(oldCanvas);
     }
-    // var realImgWidth = img.width;
-    // var realImgHeight = img.height;
+    options.container.style.width = options.width + 'px';
+    options.container.style.height = options.height + 'px';
     var canvas = document.createElement("CANVAS");
-    canvas.setAttribute('width', options.width + 'px');
-    canvas.setAttribute('height', options.height + 'px');
     canvas.setAttribute('id', 'canvas');
-    var ctx = canvas.getContext('2d');
-    //drawImage(canvas, ctx, realImgWidth, realImgHeight, img);
-    var ctx = drawText(canvas, options.text, options.fontProperties);
-    options.container.appendChild(canvas);
+    var img = new Image();
+    img.onload = function () {
+      var imgSize = getImageSize(img, options.width, options.height);
+      canvas.setAttribute('width', imgSize.width + 'px');
+      canvas.setAttribute('height', imgSize.height + 'px');
+      if (imgSize.top) {
+        canvas.style['padding-top'] = imgSize.top;
+      } else if (imgSize.left) {
+        canvas.style['padding-left'] = imgSize.left;
+      }
+      var ctx = drawText(canvas, options.text, options.fontProperties, options.textPosition);
+      options.container.appendChild(canvas);
+    }
+    img.src = options.imgUrl;
   }
 
-  function drawText(canvas, text, fontProperties)
+  function drawText(canvas, text, fontProperties, textPosition)
   {
     var ctx = canvas.getContext('2d');
     setFontProperties(ctx, fontProperties);
@@ -72,23 +80,41 @@ var AddText = function () {
     oldText = text;
 
     for (var i = 0; i < lines.length; i++) {
-      ctx.strokeText(lines[i], options.textPosition.left, options.textPosition.top + (i * lineheight));
-      ctx.fillText(lines[i], options.textPosition.left, options.textPosition.top + (i * lineheight));
+      ctx.strokeText(lines[i], textPosition.left, textPosition.top + (i * lineheight));
+      ctx.fillText(lines[i], textPosition.left, textPosition.top + (i * lineheight));
     }
     return ctx;
   }
 
-  function drawImage(canvas, ctx, realImgWidth, realImgHeight, img) {
+  function getImageSize(img, containerWidth, containerHeight) {
+    console.log(containerHeight, containerWidth);
+    var realImgWidth = img.width;
+    var realImgHeight = img.height;
+    console.log(realImgHeight, realImgWidth);
+    var size;
+
+    var half = 0.49999999999999999999999999999999999999999999;
     if (realImgWidth > realImgHeight) {
-      var imgHeight = (options.width / realImgWidth) * realImgHeight;
-      img.height = imgHeight;
-      ctx.drawImage(img, 0, options.height / 2 - imgHeight / 2, options.width, imgHeight);
+      var imgHeight = (+containerWidth / realImgWidth) * realImgHeight;
+      var top = options.height / 2 - imgHeight / 2;
+      size = {
+        width: +containerWidth,
+        height: imgHeight,
+        top: Math.round(top + half)
+      }
+      //ctx.drawImage(img, 0, options.height / 2 - imgHeight / 2, options.width, imgHeight);
     } else {
-      var imgWidth = (options.height / realImgHeight) * realImgWidth;
-      img.width = imgWidth;
-      ctx.drawImage(img, options.width / 2 - imgWidth / 2, 0, imgWidth, options.height);
+      var imgWidth = (+containerHeight / realImgHeight) * realImgWidth;
+      var left = options.width / 2 - imgWidth / 2;
+      size = {
+        width: imgWidth,
+        height: +containerHeight,
+        left: Math.round(left + half)
+      }
+      //ctx.drawImage(img, options.width / 2 - imgWidth / 2, 0, imgWidth, options.height);
     }
-    return ctx;
+    console.log(size);
+    return size;
   }
 
 

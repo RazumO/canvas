@@ -36,7 +36,7 @@ var text = document.getElementById('text').value = (JSON.stringify(options, null
 
 var btn = document.getElementById('btn');
 btn.onclick = function () {
-  var textarea = document.getElementById('text')
+  var textarea = document.getElementById('text');
   var text = textarea.value;
   console.log(text);
   var newOptions = JSON.parse(text);
@@ -45,3 +45,14 @@ btn.onclick = function () {
 };
 
 //addText.add(options);
+
+var textarea2 = document.getElementById('text2');
+  textarea2.onkeyup = function() {
+    var text2 = textarea2.value;
+    var textarea = document.getElementById('text');
+    var text = textarea.value;
+    var newOptions = JSON.parse(text);
+    newOptions.container = container;
+    newOptions.text = text2;
+    addText.add(newOptions);
+  }
