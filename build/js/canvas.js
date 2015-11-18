@@ -35,7 +35,11 @@ var AddText = function () {
   var canvas = document.createElement("CANVAS");
   canvas.setAttribute('class', 'canvas');
   var ctx = canvas.getContext('2d');
+  var imgSize;
+  var startPosition;
+  var percentsTextPosition;
   //ctx.clearRect(20,20,100,50);
+  var textPositionCurrent;
 
   this.add = function (options) {
     options.fontProperties.font = function () {
@@ -47,24 +51,69 @@ var AddText = function () {
     options.container.style['background-image'] = 'url(' + options.imgUrl + ')';
     options.container.style.width = options.width + 'px';
     options.container.style.height = options.height + 'px';
+    options.container.style.position = 'relative';
+
+    var mousemoveListener = function (event) {
+      console.log('mousemove:', event.clientX, event.clientY);
+      if (imgSize) {
+        ctx.clearRect(0, 0, imgSize.width, imgSize.height);
+
+        var diff = {
+          x: startPosition.x - event.clientX,
+          y: startPosition.y - event.clientY
+        };
+        var textPosition = {
+          left: percentsTextPosition.left - diff.x,
+          top: percentsTextPosition.top - diff.y
+        };
+        textPositionCurrent = textPosition;
+        ctx = drawText(options.text, options.fontProperties, textPosition);
+      }
+    }
+
+    canvas.addEventListener('mousedown', function (event) {
+      console.log('mosuedown:', event.clientX, event.clientY);
+      startPosition =  {
+        x: event.clientX,
+        y: event.clientY
+      };
+      canvas.addEventListener('mousemove', mousemoveListener);
+    });
+
+    canvas.addEventListener('mouseup', function (event) {
+      console.log('mosueup', event.clientX, event.clientY);
+      canvas.removeEventListener('mousemove', mousemoveListener);
+      percentsTextPosition = textPositionCurrent;
+    });
+
     var img = new Image();
     img.onload = function () {
-      var imgSize = getImageSize(img, options.width, options.height);
+      imgSize = getImageSize(img, options.width, options.height);
       canvas.setAttribute('width', imgSize.width + 'px');
       canvas.setAttribute('height', imgSize.height + 'px');
-      if (imgSize.top) {
-        canvas.style['padding-top'] = imgSize.top;
-      } else if (imgSize.left) {
-        canvas.style['padding-left'] = imgSize.left;
-      }
+      //if (imgSize.top) {
+      //  canvas.style['padding-top'] = imgSize.top;
+      //} else if (imgSize.left) {
+      //  canvas.style['padding-left'] = imgSize.left;
+      //}
+      canvas.style.position = 'absolute';
+      canvas.style.top = '0px';
+      canvas.style.bottom = '0px';
+      canvas.style.left = '0px';
+      canvas.style.right = '0px';
+      canvas.style.margin = 'auto';
       ctx.clearRect(0, 0, imgSize.width, img.height);
-      ctx = drawText(options.text, options.fontProperties, options.textPosition, imgSize);
+      percentsTextPosition = textPositionCurrent ? textPositionCurrent : {
+        left: (textPosition.left * imgSize.width) / 100,
+        top: (textPosition.top * imgSize.height) / 100
+      };
+      ctx = drawText(options.text, options.fontProperties, percentsTextPosition);
       options.container.appendChild(canvas);
     }
     img.src = options.imgUrl;
   }
 
-  function drawText (text, fontProperties, textPosition, imgSize)
+  function drawText (text, fontProperties, percentsTextPosition)
   {
     setFontProperties(ctx, fontProperties);
     //separete by \n
@@ -77,12 +126,6 @@ var AddText = function () {
     size.height = lineheight * (lines.length);
 
     oldText = text;
-
-    var percentsTextPosition = {
-      left: (textPosition.left * imgSize.width) / 100,
-      top: (textPosition.top * imgSize.height) / 100
-    }
-
     console.log('Text position: ', percentsTextPosition);
 
     for (var i = 0; i < lines.length; i++) {
