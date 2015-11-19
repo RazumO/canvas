@@ -44,6 +44,7 @@ var CanvasBanner = function (options) {
 
   var mousemoveListener = function (event) {
     //console.log('mousemove:', event.clientX, event.clientY);
+    canvas.style.cursor = 'move';
     if (imgSize) {
       ctx.clearRect(0, 0, imgSize.width, imgSize.height);
 
@@ -60,12 +61,17 @@ var CanvasBanner = function (options) {
     }
   }
 
+  canvas.addEventListener('mousemove', function () {
+    canvas.style.cursor = 'pointer';
+  });
+
   canvas.addEventListener('mousedown', function (event) {
     //console.log('mosuedown:', event.clientX, event.clientY);
     mouseDownPosition =  {
       x: event.clientX,
       y: event.clientY
     };
+    canvas.style.cursor = 'move';
     canvas.addEventListener('mousemove', mousemoveListener);
   });
 
@@ -96,12 +102,10 @@ var CanvasBanner = function (options) {
       canvas.style.left = '0px';
       canvas.style.right = '0px';
       canvas.style.margin = 'auto';
-      if (!percentsTextPosition) {
         percentsTextPosition = {
-          left: (textPosition.left * imgSize.width) / 100,
-          top: (textPosition.top * imgSize.height) / 100
+          left: (optionsParam.textPosition.left * imgSize.width) / 100,
+          top: (optionsParam.textPosition.top * imgSize.height) / 100
         };
-      }
       options.container.appendChild(canvas);
       if(globalText && textPositionCurrent) {
         drawText(globalText, textPositionCurrent);
@@ -117,7 +121,7 @@ var CanvasBanner = function (options) {
   var drawText = function (text, percentsTextPosition)
   {
     globalText = text;
-    //ctx.clearRect(0, 0, imgSize.width, img.height);
+    ctx.clearRect(0, 0, imgSize.width, imgSize.height);
     //var fontProperties = options.fontProperties;
     //separete by \n
     setFontProperties(ctx, options.fontProperties);
