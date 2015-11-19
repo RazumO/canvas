@@ -23,7 +23,7 @@ var options = {
   container: container,
   width: '400',
   height: '500',
-  imgUrl: 'http://www.cinegoer.net/navigation/actress/kashmira/actress-kashmira-pics-at-full-guarantee-telugu-movie-opening-1-11.jpg',
+  imgUrl: 'http://images.entertainment.ie/images_content/rectangle/620x372/success-kid.jpg',
   text: text,
   fontProperties: fontProperties,
   textPosition: textPosition

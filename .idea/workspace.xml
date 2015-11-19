@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="c1a4f222-b2c7-4e86-bdc9-ed788071c68c" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/js/CanvasBanner.js" afterPath="$PROJECT_DIR$/build/js/CanvasBanner.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/demo/index.html" afterPath="$PROJECT_DIR$/demo/index.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/demo/main.js" afterPath="$PROJECT_DIR$/demo/main.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
@@ -31,8 +30,8 @@
           <file leaf-file-name="index.html" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/demo/index.html">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="-8.75">
-                  <caret line="14" column="46" selection-start-line="14" selection-start-column="46" selection-end-line="14" selection-end-column="46" />
+                <state vertical-scroll-proportion="-7.5">
+                  <caret line="12" column="43" selection-start-line="12" selection-start-column="43" selection-end-line="12" selection-end-column="43" />
                   <folding>
                     <element signature="n#style#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
                   </folding>
@@ -43,8 +42,8 @@
           <file leaf-file-name="main.js" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/demo/main.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="-7.4444447">
-                  <caret line="19" column="18" selection-start-line="19" selection-start-column="18" selection-end-line="19" selection-end-column="18" />
+                <state vertical-scroll-proportion="-10.777778">
+                  <caret line="25" column="90" selection-start-line="25" selection-start-column="90" selection-end-line="25" selection-end-column="90" />
                   <folding />
                 </state>
               </provider>
@@ -53,18 +52,8 @@
           <file leaf-file-name="CanvasBanner.js" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/build/js/CanvasBanner.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.82191783">
-                  <caret line="79" column="0" selection-start-line="79" selection-start-column="0" selection-end-line="79" selection-end-column="0" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="1. Is editabel" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/build/js/1. Is editabel">
-              <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.0">
-                  <caret line="0" column="16" selection-start-line="0" selection-start-column="16" selection-end-line="0" selection-end-column="16" />
+                <state vertical-scroll-proportion="0.73630136">
+                  <caret line="102" column="41" selection-start-line="102" selection-start-column="41" selection-end-line="102" selection-end-column="41" />
                   <folding />
                 </state>
               </provider>
@@ -77,8 +66,8 @@
           <file leaf-file-name="createText.js" pinned="false" current-in-tab="true">
             <entry file="file://$USER_HOME$/VideoGram/vydeogram-app/js/addText/createText.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.56478405">
-                  <caret line="34" column="5" selection-start-line="34" selection-start-column="5" selection-end-line="34" selection-end-column="5" />
+                <state vertical-scroll-proportion="0.11627907">
+                  <caret line="7" column="26" selection-start-line="7" selection-start-column="26" selection-end-line="7" selection-end-column="26" />
                   <folding />
                 </state>
               </provider>
@@ -309,7 +298,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="220" y="23" width="2048" height="1337" extended-state="0" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2534082" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -552,44 +541,36 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/VideoGram/vydeogram-app/js/addText/createText.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.56478405">
-          <caret line="34" column="5" selection-start-line="34" selection-start-column="5" selection-end-line="34" selection-end-column="5" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/demo/main.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-7.4444447">
-          <caret line="19" column="18" selection-start-line="19" selection-start-column="18" selection-end-line="19" selection-end-column="18" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/build/js/1. Is editabel">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="16" selection-start-line="0" selection-start-column="16" selection-end-line="0" selection-end-column="16" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/demo/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-8.75">
-          <caret line="14" column="46" selection-start-line="14" selection-start-column="46" selection-end-line="14" selection-end-column="46" />
+        <state vertical-scroll-proportion="-7.5">
+          <caret line="12" column="43" selection-start-line="12" selection-start-column="43" selection-end-line="12" selection-end-column="43" />
           <folding>
             <element signature="n#style#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/demo/main.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-10.777778">
+          <caret line="25" column="90" selection-start-line="25" selection-start-column="90" selection-end-line="25" selection-end-column="90" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/VideoGram/vydeogram-app/js/addText/createText.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.11627907">
+          <caret line="7" column="26" selection-start-line="7" selection-start-column="26" selection-end-line="7" selection-end-column="26" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/build/js/CanvasBanner.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.82191783">
-          <caret line="79" column="0" selection-start-line="79" selection-start-column="0" selection-end-line="79" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.73630136">
+          <caret line="102" column="41" selection-start-line="102" selection-start-column="41" selection-end-line="102" selection-end-column="41" />
           <folding />
         </state>
       </provider>

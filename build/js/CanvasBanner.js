@@ -81,14 +81,13 @@ var CanvasBanner = function (_options) {
   this.reinit = function (optionsParam) {
 
     var isEditable = optionsParam.container.getAttribute('data-banner-editable');
-    console.log(isEditable);
     if (isEditable === 'true') {
       this.isEditable = true;
     } else {
       this.isEditable = false;
     }
 
-    options = optionsParam;
+    options = optionsParam || this.options;
     options.fontProperties.font = function () {
       return this.fontSize + "px " + this.fontName;
     };
