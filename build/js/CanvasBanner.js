@@ -23,27 +23,26 @@
 * }
 * */
 
-var CanvasBanner = function (options) {
+var CanvasBanner = function (_options) {
   var RETREAT_DEVIDER = 2;
   var RETREAT_DEVIDER_HEIGHT = 3;
 
   var canvas = document.createElement("CANVAS");
   canvas.setAttribute('class', 'canvas');
+  canvas.style.cursor = 'pointer';
   var ctx = canvas.getContext('2d');
   var imgSize;
   var mouseDownPosition;
-  var percentsTextPosition;
-  //ctx.clearRect(20,20,100,50);
   var textPositionCurrent;
   var img;
-  var globalText;
+  var options = _options;
   options.container.style['background-size'] = 'contain';
   options.container.style['background-repeat'] = 'no-repeat';
   options.container.style['background-position'] = 'center center';
   options.container.style.position = 'relative';
+  this.options = options;
 
   var mousemoveListener = function (event) {
-    //console.log('mousemove:', event.clientX, event.clientY);
     canvas.style.cursor = 'move';
     if (imgSize) {
       ctx.clearRect(0, 0, imgSize.width, imgSize.height);
@@ -57,16 +56,11 @@ var CanvasBanner = function (options) {
         top: percentsTextPosition.top - diff.y
       };
       textPositionCurrent = textPosition;
-      drawText(globalText, textPosition);
+      drawText(options.text, textPosition);
     }
   }
 
-  canvas.addEventListener('mousemove', function () {
-    canvas.style.cursor = 'pointer';
-  });
-
   canvas.addEventListener('mousedown', function (event) {
-    //console.log('mosuedown:', event.clientX, event.clientY);
     mouseDownPosition =  {
       x: event.clientX,
       y: event.clientY
@@ -75,14 +69,25 @@ var CanvasBanner = function (options) {
     canvas.addEventListener('mousemove', mousemoveListener);
   });
 
-  canvas.addEventListener('mouseup', function (event) {
-    //console.log('mosueup', event.clientX, event.clientY);
+  function stopDrag() {
     canvas.removeEventListener('mousemove', mousemoveListener);
+    canvas.style.cursor = 'pointer';
     percentsTextPosition = textPositionCurrent;
-  });
+  }
 
+  canvas.addEventListener('mouseup', stopDrag);
+  canvas.addEventListener('mouseleave', stopDrag);
 
   this.reinit = function (optionsParam) {
+
+    var isEditable = optionsParam.container.getAttribute('data-banner-editable');
+    console.log(isEditable);
+    if (isEditable === 'true') {
+      this.isEditable = true;
+    } else {
+      this.isEditable = false;
+    }
+
     options = optionsParam;
     options.fontProperties.font = function () {
       return this.fontSize + "px " + this.fontName;
@@ -107,9 +112,7 @@ var CanvasBanner = function (options) {
           top: (optionsParam.textPosition.top * imgSize.height) / 100
         };
       options.container.appendChild(canvas);
-      if(globalText && textPositionCurrent) {
-        drawText(globalText, textPositionCurrent);
-      }
+      drawText(options.text, percentsTextPosition);
     }
     img.src = options.imgUrl;
   }
@@ -120,9 +123,8 @@ var CanvasBanner = function (options) {
 
   var drawText = function (text, percentsTextPosition)
   {
-    globalText = text;
+    options.text = text;
     ctx.clearRect(0, 0, imgSize.width, imgSize.height);
-    //var fontProperties = options.fontProperties;
     //separete by \n
     setFontProperties(ctx, options.fontProperties);
     var strokeError = options.fontProperties.stroke.size / RETREAT_DEVIDER;
@@ -132,9 +134,8 @@ var CanvasBanner = function (options) {
     var lines = newInput.lines;
     var size = {width: newInput.width + strokeError * 2};
     size.height = lineheight * (lines.length);
-
+    options.textPosition = convertToPercents(percentsTextPosition);
     oldText = text;
-    //console.log('Text position: ', percentsTextPosition);
 
     for (var i = 0; i < lines.length; i++) {
       ctx.strokeText(lines[i], percentsTextPosition.left, percentsTextPosition.top + (i * lineheight));
@@ -152,14 +153,13 @@ var CanvasBanner = function (options) {
     var realImgHeight = img.height;
     var size;
 
-    var half = 0.49999999999999999999999999999999999999999999;
     if (realImgWidth > realImgHeight) {
       var imgHeight = (+containerWidth / realImgWidth) * realImgHeight;
       var top = options.height / 2 - imgHeight / 2;
       size = {
         width: +containerWidth,
         height: imgHeight,
-        top: Math.round(top + half)
+        top: Math.ceil(top)
       }
     } else {
       var imgWidth = (+containerHeight / realImgHeight) * realImgWidth;
@@ -167,7 +167,7 @@ var CanvasBanner = function (options) {
       size = {
         width: imgWidth,
         height: +containerHeight,
-        left: Math.round(left + half)
+        left: Math.ceil(left)
       }
     }
     return size;
@@ -192,8 +192,19 @@ var CanvasBanner = function (options) {
     out.width = Math.max.apply(Math, widthArr);
     return out;
   }
+
+  function convertToPercents(size) {
+    var width = size.left * 100 / imgSize.width;
+    var height = size.top * 100 / imgSize.height;
+    var percentsSize = {
+      left: width,
+      top: height
+    };
+    return percentsSize;
+  }
+
 }
 
 
 
-window.AdddText = CanvasBanner;
+window.CanvasBanner = CanvasBanner;

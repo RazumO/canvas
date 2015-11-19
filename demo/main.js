@@ -14,17 +14,16 @@ var fontProperties = {
 };
 
 var textPosition = {
-  left: 50,
-  top: 20
+  left: 29.142857142857142, top: 42.2
 }
 
-var text = 'ababagallamaga \nafsdf asfasd \nfasd dsfasd fasfa\nsd adfs as ababaga \nafsdf asfasd \nfasd dsfasd fasfa\nsd adfs as';
+var text = '213123';
 
 var options = {
   container: container,
   width: '400',
   height: '500',
-  imgUrl: 'https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcSOx9QdgIohSdQ5sYj0nUC8imiRFaqdzdklKtq60rhJ9Vrqh5FnkQ',
+  imgUrl: 'http://www.cinegoer.net/navigation/actress/kashmira/actress-kashmira-pics-at-full-guarantee-telugu-movie-opening-1-11.jpg',
   text: text,
   fontProperties: fontProperties,
   textPosition: textPosition
