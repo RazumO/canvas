@@ -30,7 +30,6 @@ var CanvasBanner = function (_options) {
 
   var canvas = document.createElement("CANVAS");
   canvas.setAttribute('class', 'canvas');
-  canvas.style.cursor = 'pointer';
   var ctx = canvas.getContext('2d');
   var imgSize;
   var mouseDownPosition;
@@ -68,17 +67,21 @@ var CanvasBanner = function (_options) {
       x: event.clientX,
       y: event.clientY
     };
-    canvas.style.cursor = 'move';
+    if (this.isEditable == true) {
+      canvas.style.cursor = 'move';
+    }
     canvas.addEventListener('mousemove', mousemoveListener);
   });
 
-  function stopDrag() {
+  var stopDrag = (function() {
     canvas.removeEventListener('mousemove', mousemoveListener);
-    canvas.style.cursor = 'pointer';
+    if (this.isEditable == true) {
+      canvas.style.cursor = 'pointer';
+    }
     if (textPositionCurrent) {
       percentsTextPosition = textPositionCurrent;
     }
-  }
+  }).bind(this);
 
   canvas.addEventListener('mouseup', stopDrag);
   canvas.addEventListener('mouseleave', stopDrag);
@@ -89,6 +92,7 @@ var CanvasBanner = function (_options) {
     console.log(optionsParam.editable);
     if (optionsParam.editable === true) {
       this.isEditable = true;
+      canvas.style.cursor = 'pointer';
     } else {
       this.isEditable = false;
     }
