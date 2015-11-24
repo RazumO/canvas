@@ -21,6 +21,7 @@ var text = '213123';
 
 var options = {
   container: container,
+  "editable": false,
   width: '400',
   height: '500',
   imgUrl: 'http://images.entertainment.ie/images_content/rectangle/620x372/success-kid.jpg',

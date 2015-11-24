@@ -3,6 +3,7 @@
 /*
 * var options = {
 * "container": document.getElementById('container'),
+* "editable": false
 * "width": "400",
 * "height": "500",
 * "imgUrl": "http://www.gettyimages.co.uk/gi-resources/images/Homepage/Hero/UK/CMS_Creative_164657191_Kingfisher.jpg",
@@ -42,23 +43,25 @@ var CanvasBanner = function (_options) {
   options.container.style.position = 'relative';
   this.options = options;
 
-  var mousemoveListener = function (event) {
-    canvas.style.cursor = 'move';
-    if (imgSize) {
-      ctx.clearRect(0, 0, imgSize.width, imgSize.height);
+  var mousemoveListener = (function (event) {
+    if (this.isEditable == true) {
+      canvas.style.cursor = 'move';
+      if (imgSize) {
+        ctx.clearRect(0, 0, imgSize.width, imgSize.height);
 
-      var diff = {
-        x: mouseDownPosition.x - event.clientX,
-        y: mouseDownPosition.y - event.clientY
-      };
-      var textPosition = {
-        left: percentsTextPosition.left - diff.x,
-        top: percentsTextPosition.top - diff.y
-      };
-      textPositionCurrent = textPosition;
-      drawText(options.text, textPosition);
+        var diff = {
+          x: mouseDownPosition.x - event.clientX,
+          y: mouseDownPosition.y - event.clientY
+        };
+        var textPosition = {
+          left: percentsTextPosition.left - diff.x,
+          top: percentsTextPosition.top - diff.y
+        };
+        textPositionCurrent = textPosition;
+        drawText(options.text, textPosition);
+      }
     }
-  }
+  }).bind(this);
 
   canvas.addEventListener('mousedown', function (event) {
     mouseDownPosition =  {
@@ -83,7 +86,8 @@ var CanvasBanner = function (_options) {
   this.reinit = function (optionsParam) {
 
     var isEditable = optionsParam.container.getAttribute('data-banner-editable');
-    if (isEditable === 'true') {
+    console.log(optionsParam.editable);
+    if (optionsParam.editable === true) {
       this.isEditable = true;
     } else {
       this.isEditable = false;
@@ -146,7 +150,9 @@ var CanvasBanner = function (_options) {
   }
 
   this.drawText = function(text) {
-    drawText(text, percentsTextPosition);
+    if (this.isEditable == true) {
+      drawText(text, percentsTextPosition);
+    }
   }
 
   function getImageSize(img, containerWidth, containerHeight) {
