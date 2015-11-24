@@ -72,7 +72,9 @@ var CanvasBanner = function (_options) {
   function stopDrag() {
     canvas.removeEventListener('mousemove', mousemoveListener);
     canvas.style.cursor = 'pointer';
-    percentsTextPosition = textPositionCurrent;
+    if (textPositionCurrent) {
+      percentsTextPosition = textPositionCurrent;
+    }
   }
 
   canvas.addEventListener('mouseup', stopDrag);
