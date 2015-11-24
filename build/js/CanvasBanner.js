@@ -95,6 +95,7 @@ var CanvasBanner = function (_options) {
       canvas.style.cursor = 'pointer';
     } else {
       this.isEditable = false;
+      canvas.style.cursor = 'default';
     }
 
     options = optionsParam || this.options;
