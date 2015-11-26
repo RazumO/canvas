@@ -87,9 +87,6 @@ var CanvasBanner = function (_options) {
   canvas.addEventListener('mouseleave', stopDrag);
 
   this.reinit = function (optionsParam) {
-
-    var isEditable = optionsParam.container.getAttribute('data-banner-editable');
-    console.log(optionsParam.editable);
     if (optionsParam.editable === true) {
       this.isEditable = true;
       canvas.style.cursor = 'pointer';

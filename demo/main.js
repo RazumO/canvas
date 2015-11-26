@@ -39,7 +39,6 @@ var btn = document.getElementById('btn');
 btn.onclick = function () {
   var textarea = document.getElementById('text');
   var text = textarea.value;
-  console.log(text);
   var newOptions = JSON.parse(text);
   newOptions.container = container;
   cb.reinit(newOptions);
