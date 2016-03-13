@@ -17,11 +17,11 @@ var textPosition = {
   left: 29.142857142857142, top: 42.2
 }
 
-var text = '213123';
+var text = 'drag me ;)';
 
 var options = {
   container: container,
-  "editable": false,
+  "editable": true,
   width: '400',
   height: '500',
   imgUrl: 'http://images.entertainment.ie/images_content/rectangle/620x372/success-kid.jpg',
