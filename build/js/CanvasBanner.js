@@ -182,14 +182,14 @@ var CanvasBanner = function (_options) {
     return size;
   }
 
-
-  function setFontProperties(ctx, fontProperties) {
-    ctx.font = fontProperties.font();
-    ctx.fillStyle = fontProperties.fillStyle;
-    ctx.textBaseline = "hanging";
-    ctx.lineWidth = fontProperties.stroke.size;
-    ctx.strokeStyle = fontProperties.stroke.color;
-    this.fontProperties = fontProperties;
+  function setFontProperties2(ctx, fontProperties) {
+          ctx.font = fontProperties.font();
+              ctx.fillStyle = fontProperties.fillStyle;
+          ctx.textBaseline = "hanging";
+              ctx.lineWidth = fontProperties.stroke.size;
+          ctx.strokeStyle = fontProperties.stroke.color;
+            this.fontProperties = fontProperties;
+	console.log('very important log from Oleksii');
   }
 
   function getWidthLines(ctx, strokeError, text) {
