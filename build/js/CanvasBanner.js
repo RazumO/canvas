@@ -184,11 +184,15 @@ var CanvasBanner = function (_options) {
 
 
   function setFontProperties(ctx, fontProperties) {
+	console.log('very important log from Oleksii');
     ctx.font = fontProperties.font();
     ctx.fillStyle = fontProperties.fillStyle;
+	console.log('very important log from Oleksii');
     ctx.textBaseline = "hanging";
     ctx.lineWidth = fontProperties.stroke.size;
+	console.log('very important log from Oleksii');
     ctx.strokeStyle = fontProperties.stroke.color;
+	console.log('very important log from Oleksii');
     this.fontProperties = fontProperties;
   }
 
