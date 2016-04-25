@@ -182,18 +182,14 @@ var CanvasBanner = function (_options) {
     return size;
   }
 
-
-  function setFontProperties(ctx, fontProperties) {
+  function setFontProperties2(ctx, fontProperties) {
+          ctx.font = fontProperties.font();
+              ctx.fillStyle = fontProperties.fillStyle;
+          ctx.textBaseline = "hanging";
+              ctx.lineWidth = fontProperties.stroke.size;
+          ctx.strokeStyle = fontProperties.stroke.color;
+            this.fontProperties = fontProperties;
 	console.log('very important log from Oleksii');
-    ctx.font = fontProperties.font();
-    ctx.fillStyle = fontProperties.fillStyle;
-	console.log('very important log from Oleksii');
-    ctx.textBaseline = "hanging";
-    ctx.lineWidth = fontProperties.stroke.size;
-	console.log('very important log from Oleksii');
-    ctx.strokeStyle = fontProperties.stroke.color;
-	console.log('very important log from Oleksii');
-    this.fontProperties = fontProperties;
   }
 
   function getWidthLines(ctx, strokeError, text) {
